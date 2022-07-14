@@ -1,4 +1,4 @@
-# e-Cart-FullStack
+# e-cart
 
 ## Project setup
 ```
