@@ -1,27 +1,10 @@
 import {Request, Response} from "express";
 const {ChangeEvent} = require('mongodb')
 const User = require("../models/userModel")
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
-
-
+const {createAdminToken,createSuperToken,maxAge} = require('./jwtAuthToken')
 
 let getAllUserParams:any = null
-const echoWs = (ws:any, req:any) => {
-    // ws.on('connection', (msg:any) {
-    //     ws.send(msg);
-    //     ws.send('Hello here from Echo listening');
-    // });
-    console.log('WS first hadn from client received')
 
-    ws.on('connection',(socket:any)=>{
-        console.log("New connection")
-    })
-
-    ws.on('message',(message:any) => {
-        ws.send(`Roger that ${message}`)
-    })
-}
 const getallUsers = (ws:any,req:any)=>{
     getAllUserParams = { ws:ws,req:req}
     User.find().select('-updatedAt -__v -password').sort({createdAt:-1})
@@ -42,7 +25,23 @@ const makeUserAdmin = (req:Request,res:Response)=>{
     console.log(email,_id)
     User.findOneAndUpdate({email:email,_id:_id}, {level:'Admin'})
         .then((response:any) =>{
+            const adminToken = createAdminToken(response._id,response.email)
+            res.cookie('adminToken',adminToken,{httpOnly:true,maxAge:maxAge*1000})
             res.status(200).json(response)
+        })
+        .catch((err:any)=>{
+            res.status(400).json({error:err.message})
+        })
+}
+const makeUserSuper = (req:Request,res:Response)=>{
+    const {email,_id} = req.body
+    console.log(email,_id)
+    User.findOneAndUpdate({email:email,_id:_id}, {level:'Super'})
+        .then((response:any) =>{
+            const superToken = createSuperToken(response._id,response.email)
+            res.cookie('superToken',superToken,{httpOnly:true,maxAge:maxAge*1000})
+            res.status(200).json(response)
+
         })
         .catch((err:any)=>{
             res.status(400).json({error:err.message})
@@ -71,6 +70,7 @@ const deleteUser = (req:Request,res:Response)=>{
 
 
 User.watch().on('change',(data:any)=>{
+
     // if(data.operationType === 'insert'){
     //     console.log('User Inserted ',data.fullDocument)
     // }
@@ -80,8 +80,10 @@ User.watch().on('change',(data:any)=>{
     // if(data.operationType === 'delete') {
     //     console.log('User delete ', data.fullDocument)
     // }
-    const {ws,req} = getAllUserParams
-    getallUsers(ws,req)
+   if (getAllUserParams!= null){
+       const {ws,req} = getAllUserParams
+       getallUsers(ws,req)
+   }
 })
 
-module.exports = {getallUsers,makeUserAdmin,deleteMultipleUsers,deleteUser,echoWs}
+module.exports = {getallUsers,makeUserAdmin,makeUserSuper,deleteMultipleUsers,deleteUser}

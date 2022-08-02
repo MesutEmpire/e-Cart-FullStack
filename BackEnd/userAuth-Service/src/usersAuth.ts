@@ -38,6 +38,7 @@ app.use('/api/auth',authRoutes)
 connect(`${process.env.MONGO_URI}`)
     .then(()=>{
         app.listen(process.env.PORT,()=>console.log('Connected to DB and listening on port',process.env.PORT))
+        console.log("UserAuth Service Successfully connected")
     })
     .catch((err:any) =>{
         console.log(err)

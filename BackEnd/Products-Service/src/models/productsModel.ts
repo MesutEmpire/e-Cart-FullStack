@@ -1,15 +1,20 @@
 
-// const mongoose = require('mongoose')
-// const { Schema, Model, Document } = mongoose;
 import {model, Schema} from 'mongoose';
 
 interface IProducts{
     title : string,
     price : number,
-    rating : number,
-    time : number ,
+    rating : IRating,
+    category:string,
+    description:string,
+    // time : number ,
     img: string,
 }
+interface IRating{
+    rate : number,
+    count : number
+}
+
 
 const productSchema = new Schema<IProducts>({
     title : {
@@ -21,13 +26,21 @@ const productSchema = new Schema<IProducts>({
         required:true
     },
     rating : {
-        type:Number,
+        type:Object,
         required:true
     },
-    time : {
-        type:Number,
+    category : {
+        type:String,
         required:true
-    } ,
+    },
+    description : {
+        type:String,
+        required:true
+    },
+    // time : {
+    //     type:Number,
+    //     required:true
+    // } ,
     img: {
         type:String,
         required:true
@@ -36,20 +49,3 @@ const productSchema = new Schema<IProducts>({
 
 module.exports = model<IProducts>('Product',productSchema)
 
-
-//
-// // 1. Create an interface representing a document in MongoDB.
-// interface IUser {
-//     name: string;
-//     email: string;
-//     // Use `Types.ObjectId` in document interface...
-//     organization: Types.ObjectId;
-// }
-//
-// // 2. Create a Schema corresponding to the document interface.
-// const userSchema = new Schema<IUser>({
-//     name: { type: String, required: true },
-//     email: { type: String, required: true },
-//     // And `Schema.Types.ObjectId` in the schema definition.
-//     organization: { type: Schema.Types.ObjectId, ref: 'Organization' }
-// });

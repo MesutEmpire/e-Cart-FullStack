@@ -2,11 +2,11 @@ import {NextFunction, Request, Response} from "express";
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
-const requireAuth = (req:Request,res:Response,next:NextFunction)=>{
-    const token = req.cookies.userToken
+const authCode = (res:Response,next:NextFunction,token:any,secretKey:any)=>{
     try{
         if(token){
-            jwt.verify(token,`${process.env.SECRET_KEY}`,(err:any,decodedToken:any)=>{
+            console.log("JWT TOKEN")
+            jwt.verify(token,`${secretKey}`,(err:any,decodedToken:any)=>{
                 if(err){
                     console.log(err.message)
                     res.status(403).json('Access Denied')
@@ -17,11 +17,26 @@ const requireAuth = (req:Request,res:Response,next:NextFunction)=>{
                 }
             })
         }
+        else{
+            res.status(403).json('Access Denied')
+        }
     }
     catch(err:any) {
-        res.status(403).json('Access Denied')
+        res.status(500).json(' Internal Server Error')
     }
-    }
+}
 
+const requireUserAuth = (req:Request,res:Response,next:NextFunction)=>{
+    const token = req.cookies.userToken
+    authCode(res,next,token,process.env.SECRET_KEY)
+}
+const requireAdminAuth = (req:Request,res:Response,next:NextFunction)=>{
+    const token = req.cookies.adminToken
+    authCode(res,next,token,process.env.SECRET_ADMIN_KEY)
+}
+const requireSuperAuth = (req:Request,res:Response,next:NextFunction)=>{
+    const token = req.cookies.superToken
+    authCode(res,next,token,process.env.SECRET_SUPER_KEY)
+}
 
-module.exports = {requireAuth}
+module.exports = {requireUserAuth,requireAdminAuth,requireSuperAuth}

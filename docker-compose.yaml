@@ -2,44 +2,40 @@ version: "3.9"
 services:
   users-service:
     build: ./BackEnd/Users-Service
-    container_name: users
+    container_name: users-container
     ports:
       - "5000:5000"
-#    volumes:
-#      - ./BackEnd :/users
-#      - /user/node_modules
+    volumes:
+     - ./BackEnd/Users-Service:/users
+     - /users/node_modules
 
   userauth-service:
     build: ./BackEnd/userAuth-Service
-    container_name: userAuth
+    container_name: userAuth-container
     ports:
       - "3000:3000"
-#    volumes:
-#      - ./BackEnd :/userAuth
-#      - /userAuth/node_modules
+    volumes:
+     - ./BackEnd/userAuth-Service:/userAuth
+     - /userAuth/node_modules
 
   products-service:
     build: ./BackEnd/Products-Service
-    container_name: products
+    container_name: products-container
     ports:
       - "4000:4000"
-    # environment:
-    #     - env_var_name=${VARIABLE_NAME}
-
-  frontend:
+    volumes:
+     - ./BackEnd/Products-Service:/products
+     - /products/node_modules
+#    # environment:
+#    #     - env_var_name=${VARIABLE_NAME}
+#
+  frontend-web:
     build: ./FrontEnd/e-cart
     container_name: frontend-container
     ports:
       - "8080:8080"
     stdin_open: true
     tty: true
-
-#    volumes:
-#      - ./BackEnd :/products
-#      - /products/node_modules
-#    links:
-#      - redis
-#  redis:
-#    image: redis
-#volumes:
-#  logvolume01: {}
+    volumes:
+     - ./FrontEnd/e-cart:/web
+     - /web/node_modules

@@ -1,7 +1,7 @@
 import {Router} from 'express';
 
-const { logInUser , createNewUser,logOutUser,authUser} =require ('../controllers/authController')
-const {requireAuth} = require('../middleware/authMiddleware')
+const { logInUser , createNewUser,logOutUser,authUser,authAdmin,authSuper} =require ('../controllers/authController')
+const {requireUserAuth,requireAdminAuth,requireSuperAuth} = require('../middleware/authMiddleware')
 
 
 const router = Router()
@@ -11,6 +11,10 @@ router.post('/login',logInUser)
 
 router.get('/logout',logOutUser)
 
-router.get('/authUser',requireAuth,authUser)
+router.get('/authUser',requireUserAuth,authUser)
+
+router.get('/authAdmin',requireAdminAuth,authAdmin)
+
+router.get('/authSuper',requireSuperAuth,authSuper)
 
 module.exports = router
