@@ -35,38 +35,44 @@
               Price</label
             >
           </div>
-
           <div class="relative md:mx-6">
-            <input
+            <select
                 type="number"
-                id="food_time"
-                v-model="productsStore.productForm.time"
+                id="food_category"
+                v-model="productsStore.productForm.category"
                 class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
-            />
+            >
+              <option disabled selected>Choose a category</option>
+              <option value="Men's Clothing">Men's Clothing</option>
+              <option value="Women's Clothing">Women's Clothing</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Jewelry">Jewelry</option>
+            </select>
             <label
-                for="food_time"
+                for="food_category"
                 class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >
-              Time</label
+              Category</label
             >
           </div>
 
           <div class="relative md:mx-6">
-            <input
-                type="number"
-                id="food_rating"
-                v-model="productsStore.productForm.rating"
+            <textarea
+                type="text"
+                rows="3"
+                id="food_description"
+                v-model="productsStore.productForm.description"
                 class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
             />
             <label
-                for="food_rating"
+                for="food_description"
                 class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >
-              Rating</label
+              Description</label
             >
           </div>
           <div class="mb-4">
@@ -76,7 +82,6 @@
                   class="flex flex-col justify-center items-center w-full h-full bg-white rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 <div
-                    v-if="productsStore.productForm.img == ''"
                     class="flex flex-col justify-center items-center pt-5 pb-6"
                 >
                   <svg

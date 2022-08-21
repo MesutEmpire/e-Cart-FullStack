@@ -7,7 +7,7 @@ interface IProducts{
     rating : IRating,
     category:string,
     description:string,
-    // time : number ,
+    merchant : string,
     img: string,
 }
 interface IRating{
@@ -37,10 +37,10 @@ const productSchema = new Schema<IProducts>({
         type:String,
         required:true
     },
-    // time : {
-    //     type:Number,
-    //     required:true
-    // } ,
+    merchant : {
+        type:String,
+        required:true
+    } ,
     img: {
         type:String,
         required:true

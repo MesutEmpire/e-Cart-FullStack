@@ -51,6 +51,7 @@ export const  UserAuthStore = defineStore('userAuth', {
       })
           .then((res:Response) => res.json())
           .then((res:any) => {
+              this.resetForm()
               this.currentUser = res
               localStorage.setItem('currentUser', JSON.stringify(res));
               console.log("User",this.currentUser)
@@ -73,6 +74,7 @@ export const  UserAuthStore = defineStore('userAuth', {
             })
                 .then((res:Response) => res.json())
                 .then((res:any) => {
+                    this.resetForm()
                     this.currentUser = res
                     localStorage.setItem('currentUser', JSON.stringify(res));
                     console.log("User",this.currentUser)
@@ -167,6 +169,44 @@ export const  UserAuthStore = defineStore('userAuth', {
                     })
             })
         },
+        authSuper(){
+            return new Promise((resolve, reject) => {
+                fetch('http://localhost:3000/api/auth/authSuper',{
+                    method:'GET',
+                    headers: {'Content-Type':'application/json'},
+                    credentials: 'include',
+                })
+                    .then((res:Response) =>
+                        {
+                            if(res.status == 200){
+                                res.json()
+                            }
+                            else {
+                                throw Error("Not 200")
+                            }
+                        }
+
+                    )
+                    .then((res:any) => {
+                        console.log(res)
+                        resolve(true)
+
+                    })
+                    .catch((err:any) =>{
+                        console.log(err.message)
+                        reject(err.message)
+                    })
+            })
+        },
+        resetForm(){
+            this.signInForm.firstname= "",
+                this.signInForm.lastname= "",
+                this.signInForm.phoneNumber= null,
+                this.signInForm.email= "",
+                this.signInForm.password= "",
+                this.signInForm.confirmPassword= "",
+                this.signInForm.level="User"
+        }
 
 
 

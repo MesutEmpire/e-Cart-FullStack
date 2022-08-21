@@ -15,7 +15,7 @@ router.get('/:id',getProduct)
 router.post('/',upload.fields([
     { name: 'title', maxCount: 6 },
     { name: 'price', maxCount: 6 },
-    // { name: 'time', maxCount: 6 },
+    { name: 'merchant', maxCount: 6 },
     { name: 'category', maxCount: 6 },
     { name: 'description', maxCount: 6 },
     { name: 'img', maxCount: 1 },

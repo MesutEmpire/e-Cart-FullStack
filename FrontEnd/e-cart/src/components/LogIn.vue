@@ -85,6 +85,7 @@
           >
             Sign in
           </button>
+
           <div
               class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-300"
           >

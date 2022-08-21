@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import {functions} from "@/Firebase/config";
-import { httpsCallable } from "firebase/functions";
+import {ProductStore} from "@/stores/Products";
 
 export const  UserStore = defineStore('users', {
     state: ()=>({
@@ -28,6 +27,13 @@ export const  UserStore = defineStore('users', {
         },
         getUserSelected(state){
             return state.userSelected
+        },
+        //should be removed and create its own store
+        getDashboardItems(state){
+            const productsStore = ProductStore()
+           return[ {title:'Users',no : this.getNumberOfUsers, colour: 'bg-red-600', abbr:'US'},
+               {title:'New Products',no : productsStore.getNumberOfProducts, colour: 'bg-green-600', abbr:'NP'},
+               {title:'Orders',no : 0, colour: 'bg-orange-600', abbr:'OR'}]
         }
     },
     actions: {
@@ -44,7 +50,6 @@ export const  UserStore = defineStore('users', {
                 console.log(this.users)
                 socket.send(`Received your data from the Client :${this.users}`);
             }
-
         },
         showMakeAdmin(payload:string){
             this.userSelected = payload
@@ -52,7 +57,6 @@ export const  UserStore = defineStore('users', {
             if(this.makeAdmin == false){
                 this.userSelected = null
             }
-
         },
         makeUserAdmin(payload:any){
             console.log(payload)
@@ -70,27 +74,41 @@ export const  UserStore = defineStore('users', {
     },
         makeSuperUser(payload:any){
             console.log(payload)
-            const addSuperRole = httpsCallable(functions,'addSuperRole')
-            addSuperRole({
-                email : payload
+            fetch('http://localhost:5000/api/users/makeSuper',{
+                method:'POST',
+                headers: {'Content-Type':'application/json'},
+                credentials: 'include',
+                body: JSON.stringify(payload)
             })
-                .then((result)=>{
-
-                    console.log(result.data)
+                .then((res:Response) => res.json())
+                .then((res:any) => this.currentUser = res)
+                .catch((err:any) =>{
+                    console.log(err.message)
                 })
-                .catch((error) => {
-                    // Getting the Error details.
-                    const code = error.code;
-                    const message = error.message;
-                    const details = error.details;
-                    console.log(code)
-                    console.log(message)
-                    console.log(details)
-
-
-                })
-
         },
+        // makeSuperUser(payload:any){
+        //     console.log(payload)
+        //     const addSuperRole = httpsCallable(functions,'addSuperRole')
+        //     addSuperRole({
+        //         email : payload
+        //     })
+        //         .then((result)=>{
+        //
+        //             console.log(result.data)
+        //         })
+        //         .catch((error) => {
+        //             // Getting the Error details.
+        //             const code = error.code;
+        //             const message = error.message;
+        //             const details = error.details;
+        //             console.log(code)
+        //             console.log(message)
+        //             console.log(details)
+        //
+        //
+        //         })
+        //
+        // },
         deleteThisUser(payload:string){
             console.log(payload)
             fetch('http://localhost:5000/api/users/deleteUser',{

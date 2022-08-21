@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
       const authStore = UserAuthStore()
       const userStore = UserStore()
       const productsStore = ProductStore()
-      authStore.authUser()
+      authStore.authAdmin()
           .then(()=> {
             userStore.showAllUsers()
             productsStore.fetchProducts()

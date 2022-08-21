@@ -94,14 +94,15 @@
                         <span class="ml-3">Make Admin</span>
                       </a>
                     </li>
-<!--                    <li  v-if="authStore.getUserSuper"  @click="store.makeSuperUser({email:user.email,_id:user._id})"  class="my-px">-->
-<!--                      <a-->
-<!--                          href="#"-->
-<!--                          class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"-->
-<!--                      >-->
-<!--                        <span class="ml-3">Make SuperUser</span>-->
-<!--                      </a>-->
-<!--                    </li>-->
+<!--                    v-if="authStore.getUserSuper"-->
+                    <li   @click="store.makeSuperUser({email:user.email,_id:user._id})"  class="my-px">
+                      <a
+                          href="#"
+                          class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                      >
+                        <span class="ml-3">Make SuperUser</span>
+                      </a>
+                    </li>
                     <li   @click="store.deleteThisUser(user._id)"  class="my-px">
 <!--                      v-if="authStore.getUserSuper"-->
                       <a

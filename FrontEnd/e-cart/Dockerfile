@@ -1,12 +1,16 @@
 FROM node:17-alpine
 
+USER node
+
+#RUN mkdir /web
+
 WORKDIR /web
 
-COPY package*.json .
+COPY --chown=node:node package*.json .
 
 RUN npm install
 
-COPY . .
+COPY --chown=node:node . .
 
 EXPOSE 8080
 

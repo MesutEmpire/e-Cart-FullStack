@@ -11,6 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
     "baseUrl": ".",
     "types": [
       "webpack-env"

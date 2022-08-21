@@ -5,6 +5,7 @@ export interface UserSignUp {
     email:string,
     password: string,
     confirmPassword: string,
+    level:string
 }
 export interface IUsers{
     email: string
@@ -14,10 +15,14 @@ export interface IUsers{
     password: string
     phoneNumber: number |string
 }
-export interface IFoodForm {
+export interface IProductForm {
     title: string | any,
     price: string | any ,
-    time: string | any,
-    rating: string | any,
+    // time: string | any,
+    merchant:string | any,
+    category:string | any,
+    description:string | any,
     img: any | null,
 }
+
+export type ISearchProduct = null | string

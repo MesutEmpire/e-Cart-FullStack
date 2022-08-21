@@ -1,25 +1,34 @@
 <template>
 
-  <div class="
-            fixed
-            inset-y-0
-            left-0
-            flex
-            max-w-full
-            pr-10">
+  <div class="">
     <div
-        class="w-48 mt-20 origin-top-left rounded-md shadow-lg sm:w-64 max-w-auto"
+        class="w-auto max-w-auto"
     >
-      <div class="px-2 py-2 bg-white">
-        <span class="block text-sm text-gray-90">
-        Names </span
-        >
-        <span class="block text-sm font-medium text-gray-500 truncate">email</span>
+      <div class="px-2 py-2">
+<!--        <span class="bg-gray-300 rounded-full w-8 h-8 text-2xl font-mono text-white">-->
+<!--         {{store.getCurrentUser.fullName.charAt(0)}}-->
+<!--        </span>-->
+        <div class="flex flex-wrap items-center justify-center my-3">
+          <span class="inline">
+          <button type="button"
+                  :class="color.state"
+                  class="flex mr-3 text-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+<!--          <span class="sr-only">Open user menu</span>-->
+            <!--          <img class="w-12 h-12 rounded-full" src="../assets/logo.png" alt="user photo" />-->
+          <h4 class=" flex items-center justify-center w-14 h-14 text-2xl font-mono text-white">{{store.getCurrentUser.fullName.charAt(0)}}</h4>
+        </button>
+        </span>
+          <span class="inline-block">
+          <span class="block text-sm text-gray-90">{{store.getCurrentUser.fullName}}</span
+          >
+        <span class="block text-sm font-medium text-gray-500 truncate">{{store.getCurrentUser.email}}</span>
+       </span>
+        </div>
 <!--        //{{ store.getUser.email }}-->
         <ul>
           <li class="my-px">
             <router-link key="dashboard" to="/SuperUser/dashboard"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -30,10 +39,11 @@
               <span class="ml-3">Dashboard</span>
 
             </router-link>
+
           </li>
           <li class="my-px">
             <router-link key="users" to="/SuperUser/users"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab  flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -47,7 +57,7 @@
           </li>
           <li class="my-px">
             <router-link key="users" to="/SuperUser/products"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab  flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -62,7 +72,7 @@
           <li class="my-px">
             <a
                 href="#"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab  flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -81,7 +91,7 @@
           <li class="my-px">
             <a
                 href="#"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab  flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -101,7 +111,7 @@
           <li class="my-px">
             <a
                 href="#"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab  flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-gray-400"
@@ -122,7 +132,7 @@
             <router-link
                 to="/"
                 @click="store.logOut()"
-                class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
+                class="borderTab flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-pink-100"
             >
               <span
                   class="flex items-center justify-center text-lg text-red-400"
@@ -146,11 +156,14 @@
 
 <script setup lang="ts">
 import {UserAuthStore} from "@/stores/UserAuth";
-
+import {computed, reactive, ref} from "vue";
     const store = UserAuthStore()
 
+const color = reactive({
+  state: `${store.getCurrentUser.color}`
+})
+console.log(color.state)
 </script>
 
 <style scoped>
-
 </style>

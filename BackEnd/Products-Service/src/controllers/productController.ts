@@ -12,6 +12,7 @@ const getAllProducts = (ws:any,req:any)=>{
     getAllProductParams = { ws:ws,req:req}
     Product.find({}).sort({createdAt:-1})
         .then((response:any) =>{
+            console.log('Connection Products opened')
             ws.send(JSON.stringify(response))
             // res.status(200).json(response)
         })
@@ -39,7 +40,7 @@ const getProduct = (req:Request,res:Response)=>{
 }
 //create a product
 const createProduct =(req:any,res:Response)=>{
-    const {title,price,category,description} = req.body
+    const {title,price,category,description,merchant} = req.body
     const rating = {
         "rate": 0,
         "count": 0
@@ -48,7 +49,7 @@ const createProduct =(req:any,res:Response)=>{
         .then((cloudResponse:any)=>{
             const img =  cloudResponse.url
             try {
-                Product.create({title,price,category,description,rating,img})
+                Product.create({title,price,category,description,rating,img,merchant})
                     .then((response:any)=>{
                         res.status(200).json(response)
 
